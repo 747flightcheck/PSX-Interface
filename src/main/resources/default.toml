@@ -1,0 +1,94 @@
+[network]
+host = "localhost"
+port = 10747
+
+[[category]]
+	name = "Standard analog"
+
+	[category.properties]
+		min = -999
+		max = 999
+	
+	[[category.variable]]
+		psx = "Qs120"
+		name = "Flight controls"
+		delimiter = ";"
+
+		[[category.variable.value]]
+
+			[[category.variable.value.component]]
+				name = "Aileron - Captain"
+				inverted = False
+
+			[[category.variable.value.component]]
+				name = "Aileron - F/O"]
+				inverted = false
+		
+		[[category.variable.value]]
+			components = ["Elevator - Captain", "Elevator - F/O"]
+			inverted = false
+	
+		[[category.variable.value]]
+			components = ["Rudder - Captain", "Rudder - F/O"]
+			inverted = false
+
+[[category]]
+	name = "Radar buttons"
+
+	[category.properties]
+		digital = true
+
+	[[category.variable]]
+		psx = "Qs104"
+		name = "Radar buttons"
+
+		[[category.variable.value]]
+			inactive = "FWTM"
+
+			[[category.variable.value.component]]
+				name = "TFR - Captain"
+				active = "fWTM"
+
+			[[category.variable.value.component]]
+				name = "WX - Captain"
+				active = "FwTM"
+
+			[[category.variable.value.component]]
+				name = "WX+T - Captain"
+				active = "FWtM"
+
+			[[category.variable.value.component]]
+				name = "MAP - Captain"
+				active = "FWTm"
+
+		[[category.variable.value]]
+			inactive = "g"
+
+			[[category.variable.value.component]]
+				name = "GC - Captain"
+				active = "G"
+
+		[[category.variable.value]]
+			toggle = true
+			inactive = "a"
+
+			[[category.variable.value.component]]
+				name = "AUTO"
+				active = "A"
+
+		[[category.variable.value]]
+			toggle = true
+			inactive = "r"
+
+			[[category.variable.value.component]]
+				name = "L/R"
+				active = "R"
+
+		[[category.variable.value]]
+			toggle = true
+			inactive = "e"
+
+			[[category.variable.value.component]]
+				name = "TEST"
+				active = "E"
+
