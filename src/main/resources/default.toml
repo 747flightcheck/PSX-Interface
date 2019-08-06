@@ -21,7 +21,7 @@ port = 10747
 				inverted = False
 
 			[[category.variable.value.component]]
-				name = "Aileron - F/O"]
+				name = "Aileron - F/O"
 				inverted = false
 		
 		[[category.variable.value]]

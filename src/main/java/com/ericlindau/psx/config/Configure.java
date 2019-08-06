@@ -7,7 +7,6 @@ import com.ericlindau.psx.core.processing.AnalogValue;
 import com.ericlindau.psx.core.processing.DigitalValue;
 import com.ericlindau.psx.core.processing.Value;
 import com.ericlindau.psx.core.processing.Variable;
-import com.sun.istack.internal.NotNull;
 import net.consensys.cava.toml.Toml;
 import net.consensys.cava.toml.TomlArray;
 import net.consensys.cava.toml.TomlParseResult;
@@ -58,7 +57,6 @@ public class Configure {
     return variables;
   }
 
-  @NotNull
   private List<Variable> processCategory(TomlTable category) {
     List<Variable> variables = new ArrayList<Variable>();
     Properties properties = new Properties(); // TODO: Make Properties obsolete
@@ -90,7 +88,7 @@ public class Configure {
       values.add(processValue((TomlTable) o, propertiesTable, digital));
     }
 
-    Variable variable = new Variable(null, values);
+    Variable variable = new Variable(values);
     variable.setFieldsFromTable(variableTable);
 
     return variable;
@@ -104,15 +102,19 @@ public class Configure {
     for (Object o : componentsArray.toList()) {
       TomlTable componentTable = (TomlTable) o;
 
-      Pollable component = digital ?
-          new DigitalComponent() : new AnalogComponent();
+      Pollable component = digital ? new DigitalComponent() : new AnalogComponent();
       ((Configurable) component).setFieldsFromTable(componentTable);
       components.add(component);
     }
 
     Value value = digital ?
         new DigitalValue(components) : new AnalogValue(components);
+    // TODO: Move setFieldsFromTable to constructor for other fields
+    // ... what other fields?
     value.setFieldsFromTable(propertiesTable);
+    // TODO: Then call it again here
+    // ... with what?
+    // precedence: Defaults->properties->specified
     value.setFieldsFromTable(valueTable);
 
     return value;

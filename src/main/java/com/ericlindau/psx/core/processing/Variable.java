@@ -8,35 +8,36 @@ import java.util.List;
 public class Variable extends Configurable {
 
   @Configured
-  private String name;
+  private String name = "Unnamed";
   @Configured
-  private String delimiter;
+  private String delimiter = "";
   @Configured
-  private String psx;
+  private String psx = "";
 
-  private List<Value> values; // TODO: Remove public
+  private List<Value> values;
   private int startingIndex; // TODO: Initialization
   private StringBuffer compiled;
 
-  public Variable(String psx, List<Value> values) {
+  public Variable(List<Value> values) {
+    // TODO: Initialize with specified length
     compiled = new StringBuffer(psx + "=");
     startingIndex = compiled.length();
     this.values = values;
-    this.psx = psx;
   }
 
   public String getPollData() {
     compiled.delete(startingIndex, compiled.length());
 
-    int index = startingIndex;
-    for (Value value : values) {
-      String data = value.getPollData();
-      compiled.insert(index, data + delimiter);
-      index += data.length() + delimiter.length();
-    }
+    for (int i = 0; i < values.size(); i++) {
+      Value value = values.get(i);
 
-    if (index != startingIndex) { // Remove trailing delimiter
-      compiled.delete(index, index + delimiter.length());
+      String data = value.getPollData();
+      compiled.append(data);
+
+      // Split compiled values by delimiter
+      if (i != values.size() - 1) {
+        compiled.append(this.delimiter);
+      }
     }
 
     return compiled.toString();

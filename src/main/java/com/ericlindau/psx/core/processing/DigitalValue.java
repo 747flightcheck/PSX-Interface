@@ -11,11 +11,11 @@ public class DigitalValue extends Value {
   @Configured
   private boolean singular;
   @Configured
-  String inactive;
+  private String inactive;
   @Configured
-  boolean toggle;
+  private boolean toggle;
   @Configured
-  boolean unpressed;
+  private boolean unpressed;
 
   HashMap<Pollable, String> actives; // TODO: Set initial capacities when injecting
   HashMap<Pollable, String> inactives;

@@ -14,13 +14,15 @@ public class AnalogValue extends Value {
   @Configured
   private boolean centered, inverted;
 
-  HashMap<Integer, String> thresholds; // TODO: Get from .toml
+  // TODO: Configure from TOML - type of field is HashMap -> look for KV
+  HashMap<Integer, String> thresholds;
 
   public AnalogValue(List<Pollable> components) {
     super(components);
   }
 
-  public String getPollData() { // TODO: Consider memory (GC) & initialization
+  // TODO: Optimize for GC/memory
+  public String getPollData() {
     Long literal = 0L;
 
     for (Pollable component : components) {
@@ -36,7 +38,7 @@ public class AnalogValue extends Value {
     }
 
     if (centered) {
-      literal /= 2; // TODO: Verify
+      literal /= 2; // TODO: Verify correctness
     }
 
     if (inverted) {
