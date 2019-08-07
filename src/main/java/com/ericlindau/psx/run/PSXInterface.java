@@ -1,13 +1,15 @@
 package com.ericlindau.psx.run;
 
+import com.ericlindau.psx.config.Configure;
+import com.ericlindau.psx.core.polling.Pollable;
 import com.ericlindau.psx.core.processing.Delegator;
-import com.ericlindau.psx.ui.HardwareMapper;
+
+import java.util.List;
 
 public class PSXInterface {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     Delegator data = new Delegator();
-    // TODO: Populate panel with possible data mappings
-    // TODO: Add listeners that modify data mappings according to selections
-    HardwareMapper panel = new HardwareMapper();
+    Configure config = new Configure();
+    List<Pollable> pollables = config.pollables();
   }
 }

@@ -20,9 +20,9 @@ import java.util.List;
 
 /**
  * @author Eric Lindau
- *
+ * <p>
  * Constructs Objects with necessary hierarchy for PSX data processing.
- *
+ * <p>
  * Documentation and default.toml should be referred to as descriptors
  * for expected configuration structure.
  */
@@ -30,15 +30,13 @@ public class Configure {
   // TODO: Test extensively with invalid configurations
   // TODO: Better exception handling across whole class
   // TODO: Consider nested reflection
+  private List<Variable> variables;
+  private List<Pollable> pollables;
 
-  /**
-   * Returns an array of concrete variable objects with parameters from default.toml.
-   *
-   * @throws Exception when something goes wrong
-   */
+
   // TODO: Exception handling
   // TODO: Allow alternative configuration files
-  public List<Variable> variables() throws Exception {
+  public Configure() throws Exception {
     URL resource = this.getClass().getClassLoader().getResource("default.toml");
     if (resource == null) {
       throw new Exception();
@@ -49,12 +47,28 @@ public class Configure {
 
     TomlArray categories = toml.getArrayOrEmpty("category");
 
-    List<Variable> variables = new ArrayList<Variable>(); // Accumulator
+    this.variables = new ArrayList<Variable>(); // Accumulator
     for (Object o : categories.toList()) {                // Populate accumulator
       variables.addAll(processCategory((TomlTable) o));
     }
 
-    return variables;
+    this.pollables = new ArrayList<Pollable>();
+    for (Variable variable : this.variables()) {
+      for (Value value : variable.getValues()) {
+        this.pollables.addAll(value.components);
+      }
+    }
+  }
+
+  /**
+   * Returns an array of concrete variable objects with parameters from default.toml.
+   */
+  public List<Variable> variables() {
+    return this.variables;
+  }
+
+  public List<Pollable> pollables() {
+    return this.pollables;
   }
 
   private List<Variable> processCategory(TomlTable category) {

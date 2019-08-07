@@ -9,7 +9,7 @@ public class DigitalComponent extends AbstractPollable {
 
   @Override
   public float getPollData() {
-    return this.component.getPollData();
+    return this.getComponent().getPollData();
   }
 
   public String getName() {
