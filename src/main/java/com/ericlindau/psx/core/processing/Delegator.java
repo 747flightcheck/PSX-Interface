@@ -2,14 +2,17 @@ package com.ericlindau.psx.core.processing;
 
 import net.java.games.input.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 /**
- *
+ * Delegates controller state changes to destinations.
  */
 public class Delegator {
   private Controller[] controllers;
+  private Component[] components;
   private List<Controller> activeControllers;
   private HashMap<Component, Variable> updateMappings;
   private HashMap<Variable, String> variableStates;
@@ -18,6 +21,11 @@ public class Delegator {
   public Delegator() {
     // TODO: Ignored controllers (e.g. mouse/keyboard)
     this.controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
+    List<Component> components = new ArrayList<Component>();
+    for (Controller controller : this.controllers) {
+      components.addAll(Arrays.asList(controller.getComponents()));
+    }
+    this.components = (Component[]) components.toArray(new Component[components.size()]);
     this.updateMappings = new HashMap<Component, Variable>();
 
     Event container = new Event();
@@ -29,6 +37,14 @@ public class Delegator {
         updateVariables(controller);
       }
     }
+  }
+
+//  public Controller[] getControllers() {
+//    return controllers;
+//  }
+
+  public Component[] getComponents() {
+    return components;
   }
 
   /** Update top-level variables related to the given Controller. */
