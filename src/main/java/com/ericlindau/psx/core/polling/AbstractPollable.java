@@ -1,9 +1,12 @@
 package com.ericlindau.psx.core.polling;
 
 import com.ericlindau.psx.config.Configurable;
+import com.ericlindau.psx.config.Configured;
 import net.java.games.input.Component;
 
 abstract class AbstractPollable extends Configurable implements Pollable {
+  @Configured
+  private String name;
 
   private Component component;
 
@@ -12,10 +15,15 @@ abstract class AbstractPollable extends Configurable implements Pollable {
   }
 
   public void setComponent(Component component) {
-    if (this.component != null) {
-      this.component = component;
-    }
-    // TODO: Else - Exception / eventually error for UI to present
+    this.component = component;
   }
 
+  public String getName() {
+    return this.name;
+  }
+
+  @Override
+  public String toString() {
+    return this.getName();
+  }
 }

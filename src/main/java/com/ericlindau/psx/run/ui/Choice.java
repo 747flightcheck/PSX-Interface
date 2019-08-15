@@ -1,4 +1,4 @@
-package com.ericlindau.psx.run;
+package com.ericlindau.psx.run.ui;
 
 import javax.swing.*;
 
@@ -10,7 +10,7 @@ class Choice extends JComboBox {
     this.mapping = mapping;
   }
 
-  public Mapping getMapping() {
+  Mapping getMapping() {
     return mapping;
   }
 }
