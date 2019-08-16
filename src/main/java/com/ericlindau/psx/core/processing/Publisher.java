@@ -10,41 +10,15 @@ import java.util.List;
 /**
  * Delegates controller state changes to destinations.
  */
-public class Delegator {
-  private Controller[] controllers;
-  private Component[] components;
-  private List<Controller> activeControllers;
+public class Publisher {
   private HashMap<Component, Variable> updateMappings;
   private HashMap<Variable, String> variableStates;
 
   // TODO: Refactor
-  public Delegator() {
+  public Publisher() {
     // TODO: Ignored controllers (e.g. mouse/keyboard)
-    this.controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
-    List<Component> components = new ArrayList<Component>();
-    for (Controller controller : this.controllers) {
-      components.addAll(Arrays.asList(controller.getComponents()));
-    }
-    this.components = (Component[]) components.toArray(new Component[components.size()]);
     this.updateMappings = new HashMap<Component, Variable>();
 
-    Event container = new Event();
-    // TODO: Only loop through active controllers
-    // TODO: ... 'active' <- has enough defined components to function
-    for (Controller controller : this.controllers) {
-      EventQueue queue = controller.getEventQueue();
-      if (queue.getNextEvent(container)) {
-        updateVariables(controller);
-      }
-    }
-  }
-
-//  public Controller[] getControllers() {
-//    return controllers;
-//  }
-
-  public Component[] getComponents() {
-    return components;
   }
 
   /** Update top-level variables related to the given Controller. */

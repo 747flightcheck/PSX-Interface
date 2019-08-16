@@ -16,7 +16,7 @@ public class Mapper {
   void set(Pollable pollable, Component component) {
     Component current = this.pollableToComponent.get(pollable);
     if (current != null) {
-      pollable.setComponent(current);
+      pollable.setComponent(component);
     }
     this.pollableToComponent.put(pollable, component);
   }

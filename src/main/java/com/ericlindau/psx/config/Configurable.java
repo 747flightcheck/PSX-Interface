@@ -37,31 +37,27 @@ public class Configurable {
    * Propagates up Class tree, settings @Configured fields while class is subclass of Configurable.
    *
    * @param table TomlTable used to fill values.
-   * @return true if all fields were set from the table.
    */
-  public boolean setFieldsFromTable(TomlTable table) {
+  public void setFieldsFromTable(TomlTable table) {
     Class toTraverse = this.getClass();
     while (Configurable.class.isAssignableFrom(toTraverse)) {
-      if (!setFieldsForClass(toTraverse, table)) {
-        return false;
-      }
+      setFieldsForClass(toTraverse, table);
       toTraverse = toTraverse.getSuperclass();
     }
-    return true;
   }
 
-  private boolean setFieldsForClass(Class c, TomlTable table) {
+  private void setFieldsForClass(Class c, TomlTable table) {
     for (Field field : c.getDeclaredFields()) {
-      if (field.getAnnotation(Configured.class) != null &&
-          !this.setFieldFromTable(field, table)) {
+      if (field.getAnnotation(Configured.class) == null) {
+        continue;
+      }
+      if (this.setFieldFromTable(field, table)) {
         System.out.println("Field set: " + field.toString());
-        // TODO: Better (not sysout) logging & return false on failure (e.g. no value in table to populate)
+        // TODO: Better (not sysout) logging
       } else {
-        return false;
+        System.out.println("Field not set: " + field.toString());
       }
     }
-
-    return true;
   }
 
 }
