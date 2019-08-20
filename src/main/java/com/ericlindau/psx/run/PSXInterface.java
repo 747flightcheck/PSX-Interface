@@ -2,9 +2,11 @@ package com.ericlindau.psx.run;
 
 import com.ericlindau.psx.config.Configure;
 import com.ericlindau.psx.core.polling.Pollable;
+import com.ericlindau.psx.core.processing.Mapper;
 import com.ericlindau.psx.core.processing.Publisher;
-import com.ericlindau.psx.core.sources.EventSource;
-import com.ericlindau.psx.core.sources.Poller;
+import com.ericlindau.psx.core.events.EventSource;
+import com.ericlindau.psx.core.events.Poller;
+import com.ericlindau.psx.core.processing.Variable;
 import com.ericlindau.psx.run.ui.UI;
 import net.java.games.input.*;
 
@@ -30,21 +32,22 @@ public class PSXInterface {
   };
 
   public static void main(String[] args) throws Exception {
-    Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
+    final Configure config = new Configure();
+    final Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
+
+    final List<Pollable> pollables = config.pollables();
+
+    final List<Variable> variables = config.variables();
+    final Mapper mapper = new Mapper(variables);
 
     // TODO: Inject Controller source for testing - no need for real components
-    final Publisher data = new Publisher();
-    Configure config = new Configure();
-    final List<Pollable> pollables = config.pollables();
-    pollables.add(0, nonePollable);
+    final Publisher data = new Publisher(variables, mapper);
+    final UI ui = new UI(getComponents(controllers), pollables.toArray(), mapper);
 
-    // TODO: Pull out all Components from Controllers & pass here
-    UI ui = new UI(getComponents(controllers), pollables.toArray());
-
-    // TODO: Pass Event both to Publisher & UI
     EventSource e = new Poller(controllers);
     for (Event event : e) {
       ui.update(event);
+      data.update(event);
     }
   }
 

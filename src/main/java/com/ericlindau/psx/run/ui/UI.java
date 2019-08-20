@@ -1,5 +1,6 @@
 package com.ericlindau.psx.run.ui;
 
+import com.ericlindau.psx.core.processing.Mapper;
 import net.java.games.input.Component;
 import net.java.games.input.Event;
 
@@ -11,7 +12,7 @@ import java.util.Map;
 public class UI {
   private Map<Component, Mapping> componentToMapping;
 
-  public UI(Component[] components, Object[] options) {
+  public UI(Component[] components, Object[] options, Mapper mapper) {
     this.componentToMapping = new HashMap<Component, Mapping>();
 
     // TODO: Move Pollable -> Component mapping out (how to ensure 1-1?)
@@ -22,7 +23,7 @@ public class UI {
     // Populate mappings
     JPanel container = new JPanel();
     container.setLayout(new GridLayout(0, 1));
-    MappingListener listener = new MappingListener();
+    MappingListener listener = new MappingListener(mapper);
     for (Component component : components) {
       Mapping mapping = new Mapping(component, options, listener);
       componentToMapping.put(component, mapping);

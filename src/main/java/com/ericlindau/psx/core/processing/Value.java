@@ -15,4 +15,12 @@ public abstract class Value extends Configurable {
 
   public abstract String getPollData();
 
+  /** Synchronously determines if Value is active (i.e. has all components set) */
+  boolean isActive() {
+    boolean isActive = true;
+    for (Pollable pollable : components) {
+      isActive &= pollable != null;
+    }
+    return isActive;
+  }
 }

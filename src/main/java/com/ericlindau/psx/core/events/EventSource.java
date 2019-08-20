@@ -1,4 +1,4 @@
-package com.ericlindau.psx.core.sources;
+package com.ericlindau.psx.core.events;
 
 import net.java.games.input.Event;
 

@@ -1,6 +1,9 @@
 package com.ericlindau.psx.run.ui;
 
+import com.ericlindau.psx.core.polling.Pollable;
+import com.ericlindau.psx.core.processing.Mapper;
 import com.ericlindau.psx.run.PSXInterface;
+import net.java.games.input.Component;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -8,12 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 class MappingListener implements ItemListener {
+  private final Mapper mapper;
   private final Map<Object, Mapping> optionToMapping;
-//  private final Map<Mapping, Component> mappingToComponent;
 
-  MappingListener() {
+  MappingListener(Mapper mapper) {
+    this.mapper = mapper;
     this.optionToMapping = new HashMap<Object, Mapping>();
-//    this.mappingToComponent = new HashMap<Mapping, Component>();
   }
 
   @Override
@@ -25,12 +28,11 @@ class MappingListener implements ItemListener {
       if (currentMapping != null) {
         currentMapping.resetChoice();
       }
-//      Component comp = this.mappingToComponent.get(source);
       if (target != PSXInterface.nonePollable) {
         this.optionToMapping.put(target, source);
       }
-      // TODO: Abstract this into non-UI Mapper that's passed in
-//      pollableToComponent.put(target, comp);
+
+      this.mapper.set((Pollable) target, (Component) source.getComponent());
     } else {  // ItemEvent.DESELECTED
       if (target != PSXInterface.nonePollable) {
         this.optionToMapping.put(target, null);

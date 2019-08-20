@@ -41,4 +41,8 @@ class Mapping extends JPanel {
   void setValue(String text) {
     this.value.setText(text);
   }
+
+  public Object getComponent() {
+    return component;
+  }
 }

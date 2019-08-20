@@ -11,30 +11,29 @@ import java.util.List;
  * Delegates controller state changes to destinations.
  */
 public class Publisher {
-  private HashMap<Component, Variable> updateMappings;
-  private HashMap<Variable, String> variableStates;
+  private final Mapper mapper;
+  private final HashMap<Variable, String> variableStates;
 
-  // TODO: Refactor
-  public Publisher() {
+  // TODO: Map component from event to something... what? Variable would be fine.
+  public Publisher(List<Variable> variables, Mapper mapper) {
+    this.mapper = mapper;
     // TODO: Ignored controllers (e.g. mouse/keyboard)
-    this.updateMappings = new HashMap<Component, Variable>();
-
-  }
-
-  /** Update top-level variables related to the given Controller. */
-  private void updateVariables(Controller controller) {
-    Component[] components = controller.getComponents();
-    for (Component component : components) {
-      Variable toUpdate = updateMappings.get(component);
-      if (toUpdate != null) {
-        String currentState = variableStates.get(toUpdate);
-        String newState = toUpdate.getPollData();
-
-        if (!currentState.equals(newState)) {
-          variableStates.put(toUpdate, newState); // TODO: Send this ret. val. on network
-        }
-      }
+    this.variableStates = new HashMap<Variable, String>();
+    for (Variable variable : variables) {
+      this.variableStates.put(variable, variable.getPollData());
     }
   }
 
+  public void update(Event event) {
+    Component c = event.getComponent();
+    Variable toUpdate = this.mapper.getVariable(c);
+    if (toUpdate != null && toUpdate.isActive()) {
+      String currentState = variableStates.get(toUpdate);
+      String newState = toUpdate.getPollData();
+
+      if (!currentState.equals(newState)) {
+        System.out.println(variableStates.put(toUpdate, newState)); // TODO: Send this ret. val. to subs
+      }
+    }
+  }
 }

@@ -6,7 +6,6 @@ import com.ericlindau.psx.config.Configured;
 import java.util.List;
 
 public class Variable extends Configurable {
-
   @Configured
   private String name = "Unnamed";
   @Configured
@@ -17,12 +16,25 @@ public class Variable extends Configurable {
   private List<Value> values;
   private int startingIndex; // TODO: Initialization
   private StringBuffer compiled;
+  private boolean isActive;
 
   public Variable(List<Value> values) {
     // TODO: Initialize with specified length
     compiled = new StringBuffer(psx + "=");
     startingIndex = compiled.length();
     this.values = values;
+  }
+
+  public boolean isActive() {
+    return this.isActive;
+  }
+
+  public void refreshActive() {
+    boolean isActive = true;
+    for (Value value : this.getValues()) {
+      isActive &= value.isActive();
+    }
+    this.isActive = isActive;
   }
 
   public String getPollData() {
@@ -58,5 +70,4 @@ public class Variable extends Configurable {
   public List<Value> getValues() {
     return values;
   }
-
 }

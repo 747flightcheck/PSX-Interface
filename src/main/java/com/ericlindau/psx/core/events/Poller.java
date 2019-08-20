@@ -1,5 +1,6 @@
-package com.ericlindau.psx.core.sources;
+package com.ericlindau.psx.core.events;
 
+import com.ericlindau.psx.core.processing.Mapper;
 import net.java.games.input.Controller;
 import net.java.games.input.Event;
 import net.java.games.input.EventQueue;

@@ -7,6 +7,7 @@ import com.ericlindau.psx.core.processing.AnalogValue;
 import com.ericlindau.psx.core.processing.DigitalValue;
 import com.ericlindau.psx.core.processing.Value;
 import com.ericlindau.psx.core.processing.Variable;
+import com.ericlindau.psx.run.PSXInterface;
 import net.consensys.cava.toml.Toml;
 import net.consensys.cava.toml.TomlArray;
 import net.consensys.cava.toml.TomlParseResult;
@@ -58,6 +59,7 @@ public class Configure {
         this.pollables.addAll(value.components);
       }
     }
+    this.pollables.add(0, PSXInterface.nonePollable);
   }
 
   /**
@@ -101,7 +103,6 @@ public class Configure {
     for (Object o : valuesArray.toList()) {
       values.add(processValue((TomlTable) o, propertiesTable, digital));
     }
-
     Variable variable = new Variable(values);
     variable.setFieldsFromTable(variableTable);
 
