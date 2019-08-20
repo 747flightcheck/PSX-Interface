@@ -45,9 +45,11 @@ public class AnalogValue extends Value {
       literal *= -1;
     }
 
-    for (Map.Entry<Integer, String> threshold : thresholds.entrySet()) {
-      if (literal < threshold.getKey()) {
-        return threshold.getValue();
+    if (thresholds != null) {
+      for (Map.Entry<Integer, String> threshold : thresholds.entrySet()) {
+        if (literal < threshold.getKey()) {
+          return threshold.getValue();
+        }
       }
     }
 

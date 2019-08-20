@@ -12,12 +12,15 @@ import net.consensys.cava.toml.Toml;
 import net.consensys.cava.toml.TomlArray;
 import net.consensys.cava.toml.TomlParseResult;
 import net.consensys.cava.toml.TomlTable;
+import net.java.games.input.Component;
+import net.java.games.input.Controller;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Eric Lindau
@@ -33,7 +36,6 @@ public class Configure {
   // TODO: Consider nested reflection
   private List<Variable> variables;
   private List<Pollable> pollables;
-
 
   // TODO: Exception handling
   // TODO: Allow alternative configuration files

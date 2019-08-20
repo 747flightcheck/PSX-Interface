@@ -17,7 +17,7 @@ public class Publisher {
   // TODO: Map component from event to something... what? Variable would be fine.
   public Publisher(List<Variable> variables, Mapper mapper) {
     this.mapper = mapper;
-    // TODO: Ignored controllers (e.g. mouse/keyboard)
+    // TODO: Configurable ignored controllers (e.g. mouse/keyboard)
     this.variableStates = new HashMap<Variable, String>();
     for (Variable variable : variables) {
       this.variableStates.put(variable, variable.getPollData());

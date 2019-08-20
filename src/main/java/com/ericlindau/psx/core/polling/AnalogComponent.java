@@ -8,7 +8,12 @@ public class AnalogComponent extends AbstractPollable {
 
   @Override
   public float getPollData() {
-    return this.getComponent().getPollData();
+    try {
+      return this.getComponent().getPollData();
+    } catch (NullPointerException n) {
+      System.out.println("null component");
+      return 0;
+    }
   }
 
   public boolean isInverted() {

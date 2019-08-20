@@ -23,13 +23,14 @@ public class Variable extends Configurable {
     compiled = new StringBuffer(psx + "=");
     startingIndex = compiled.length();
     this.values = values;
+    this.isActive = false;
   }
 
-  public boolean isActive() {
+  boolean isActive() {
     return this.isActive;
   }
 
-  public void refreshActive() {
+  void refreshActive() {
     boolean isActive = true;
     for (Value value : this.getValues()) {
       isActive &= value.isActive();

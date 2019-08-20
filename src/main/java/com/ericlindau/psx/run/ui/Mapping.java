@@ -14,7 +14,7 @@ class Mapping extends JPanel {
   private final JComboBox choice;
 
   // TODO: New interface instead of Object component & Object[] options (Pollables)?
-  Mapping(Object component, Object[] options, ItemListener comboListener) {
+  Mapping(Object component, Object controller, Object[] options, ItemListener comboListener) {
     this.setLayout(new GridLayout(1, FIELDS));
 
     this.component = component;
@@ -24,7 +24,7 @@ class Mapping extends JPanel {
 
     this.choice.addItemListener(comboListener);
 
-    this.add(new JLabel(this.component.toString()));
+    this.add(new JLabel(controller.toString() + ": " + this.component.toString()));
     this.add(this.value);
     this.add(inverted);
     this.add(this.choice);

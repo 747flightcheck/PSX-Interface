@@ -2,6 +2,7 @@ package com.ericlindau.psx.run.ui;
 
 import com.ericlindau.psx.core.processing.Mapper;
 import net.java.games.input.Component;
+import net.java.games.input.Controller;
 import net.java.games.input.Event;
 
 import javax.swing.*;
@@ -12,10 +13,9 @@ import java.util.Map;
 public class UI {
   private Map<Component, Mapping> componentToMapping;
 
-  public UI(Component[] components, Object[] options, Mapper mapper) {
+  public UI(Map<Component, Controller> components, Object[] options, Mapper mapper) {
     this.componentToMapping = new HashMap<Component, Mapping>();
 
-    // TODO: Move Pollable -> Component mapping out (how to ensure 1-1?)
     JFrame frame = new JFrame();
     frame.setSize(600, 800);
     frame.setLayout(new GridLayout(0, 1));
@@ -24,9 +24,9 @@ public class UI {
     JPanel container = new JPanel();
     container.setLayout(new GridLayout(0, 1));
     MappingListener listener = new MappingListener(mapper);
-    for (Component component : components) {
-      Mapping mapping = new Mapping(component, options, listener);
-      componentToMapping.put(component, mapping);
+    for (Map.Entry<Component, Controller> component : components.entrySet()) {
+      Mapping mapping = new Mapping(component.getKey(), component.getValue(), options, listener);
+      componentToMapping.put(component.getKey(), mapping);
       container.add(mapping);
     }
 

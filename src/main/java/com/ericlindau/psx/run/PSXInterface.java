@@ -10,9 +10,7 @@ import com.ericlindau.psx.core.processing.Variable;
 import com.ericlindau.psx.run.ui.UI;
 import net.java.games.input.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class PSXInterface {
   public static final Pollable nonePollable = new Pollable() {
@@ -33,17 +31,17 @@ public class PSXInterface {
 
   public static void main(String[] args) throws Exception {
     final Configure config = new Configure();
-    final Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
-
-    final List<Pollable> pollables = config.pollables();
-
+    final Map<Component, Controller> componentToController = generateComponents();
+    final List<Pollable> pollables = config.pollables();  // TODO: Convert to []
     final List<Variable> variables = config.variables();
     final Mapper mapper = new Mapper(variables);
 
     // TODO: Inject Controller source for testing - no need for real components
     final Publisher data = new Publisher(variables, mapper);
-    final UI ui = new UI(getComponents(controllers), pollables.toArray(), mapper);
+    final UI ui = new UI(componentToController, pollables.toArray(), mapper);
 
+    // TODO: Simplify
+    final Controller[] controllers = componentToController.values().toArray(new Controller[componentToController.values().size()]);
     EventSource e = new Poller(controllers);
     for (Event event : e) {
       ui.update(event);
@@ -51,11 +49,15 @@ public class PSXInterface {
     }
   }
 
-  private static Component[] getComponents(Controller[] controllers) {
-    List<Component> components = new ArrayList<Component>();
+  private static Map<Component, Controller> generateComponents() {
+    Map<Component, Controller> components = new HashMap<Component, Controller>();
+    final Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
     for (Controller controller : controllers) {
-      components.addAll(Arrays.asList(controller.getComponents()));
+      Component[] subComponents = controller.getComponents();
+      for (Component component : subComponents) {
+        components.put(component, controller);
+      }
     }
-    return components.toArray(new Component[controllers.length]);
+    return components;
   }
 }
