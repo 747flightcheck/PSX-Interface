@@ -5,9 +5,9 @@ import com.ericlindau.psx.core.polling.Pollable;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DigitalValue extends Value {
-
   @Configured
   private boolean singular;
   @Configured
@@ -17,22 +17,25 @@ public class DigitalValue extends Value {
   @Configured
   private boolean unpressed;
 
-  HashMap<Pollable, String> actives; // TODO: Set initial capacities when injecting
-  HashMap<Pollable, String> inactives;
+  private final Map<Pollable, String> actives; // TODO: Set initial capacities when injecting
+//  private final Map<Pollable, String> inactives;
 
-  public DigitalValue(List<Pollable> components) {
+  public DigitalValue(List<Pollable> components, Map<Pollable, String> actives, Map<Pollable, String> inactives) {
     super(components);
+    this.actives = actives;
+//    this.inactives = inactives;
   }
 
   // TODO: Memory/GC optimizations
   public String getPollData() {
+    // TODO: Initialize actives & other maps
     for (Pollable component : components) {
       if (component.getPollData() > 0) {
-        return actives.get(component);
+        return this.actives.get(component);
       }
     }
 
-    return inactive;
+    return this.inactive;
 //    } else {
 //      StringBuilder literal = new StringBuilder();
 //
@@ -47,5 +50,4 @@ public class DigitalValue extends Value {
 //      return literal.toString();
 //    }
   }
-
 }

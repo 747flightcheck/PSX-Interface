@@ -2,16 +2,16 @@ package com.ericlindau.psx.core.polling;
 
 import com.ericlindau.psx.config.Configured;
 
-public class AnalogComponent extends AbstractPollable {
+public class AnalogComponent extends GenericPollable {
   @Configured
   private boolean inverted;
 
   @Override
   public float getPollData() {
     try {
-      return this.getComponent().getPollData();
+      return this.getComponent().getPollData() * (inverted ? -1 : 1);
     } catch (NullPointerException n) {
-      System.out.println("null component");
+//      System.out.println("null component");
       return 0;
     }
   }

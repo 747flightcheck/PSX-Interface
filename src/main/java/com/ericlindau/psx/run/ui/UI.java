@@ -2,18 +2,16 @@ package com.ericlindau.psx.run.ui;
 
 import com.ericlindau.psx.core.processing.Mapper;
 import net.java.games.input.Component;
-import net.java.games.input.Controller;
 import net.java.games.input.Event;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class UI {
   private Map<Component, Mapping> componentToMapping;
 
-  public UI(Map<Component, Controller> components, Object[] options, Mapper mapper) {
+  public UI(Collection<com.ericlindau.psx.core.polling.Component> components, Object[] options, Mapper mapper) {
     this.componentToMapping = new HashMap<Component, Mapping>();
 
     JFrame frame = new JFrame();
@@ -24,9 +22,10 @@ public class UI {
     JPanel container = new JPanel();
     container.setLayout(new GridLayout(0, 1));
     MappingListener listener = new MappingListener(mapper);
-    for (Map.Entry<Component, Controller> component : components.entrySet()) {
-      Mapping mapping = new Mapping(component.getKey(), component.getValue(), options, listener);
-      componentToMapping.put(component.getKey(), mapping);
+
+    for (com.ericlindau.psx.core.polling.Component component : components) {
+      Mapping mapping = new Mapping(component, options, listener, new InvertedListener());
+      componentToMapping.put(component.getInputComponent(), mapping);
       container.add(mapping);
     }
 

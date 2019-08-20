@@ -4,10 +4,11 @@ import com.ericlindau.psx.config.Configurable;
 import com.ericlindau.psx.config.Configured;
 import net.java.games.input.Component;
 
-abstract class AbstractPollable extends Configurable implements Pollable {
+abstract class GenericPollable extends Configurable implements Pollable {
   @Configured
   private String name;
 
+  private boolean inverted;
   private Component component;
 
   public Component getComponent() {
@@ -25,5 +26,14 @@ abstract class AbstractPollable extends Configurable implements Pollable {
   @Override
   public String toString() {
     return this.getName();
+  }
+
+  public void setInverted(boolean inverted) {
+    this.inverted = inverted;
+  }
+
+  @Override
+  public float getPollData() {
+    return this.component.getPollData() * (this.inverted ? -1 : 1);
   }
 }

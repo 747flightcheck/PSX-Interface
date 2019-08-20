@@ -12,13 +12,12 @@ import net.consensys.cava.toml.Toml;
 import net.consensys.cava.toml.TomlArray;
 import net.consensys.cava.toml.TomlParseResult;
 import net.consensys.cava.toml.TomlTable;
-import net.java.games.input.Component;
-import net.java.games.input.Controller;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -113,19 +112,20 @@ public class Configure {
 
   private Value processValue(TomlTable valueTable, TomlTable propertiesTable, boolean digital) {
     List<Pollable> components = new ArrayList<Pollable>();
-
     TomlArray componentsArray = valueTable.getArrayOrEmpty("component");
 
+    Map<Pollable, String> activeMappings = new HashMap<Pollable, String>();
     for (Object o : componentsArray.toList()) {
       TomlTable componentTable = (TomlTable) o;
 
       Pollable component = digital ? new DigitalComponent() : new AnalogComponent();
       ((Configurable) component).setFieldsFromTable(componentTable);
       components.add(component);
+      activeMappings.put(component, componentTable.getString("active"));
     }
 
     Value value = digital ?
-        new DigitalValue(components) : new AnalogValue(components);
+        new DigitalValue(components, activeMappings, null) : new AnalogValue(components);
     // TODO: Move setFieldsFromTable to constructor for other fields
     // ... what other fields?
     value.setFieldsFromTable(propertiesTable);

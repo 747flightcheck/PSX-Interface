@@ -31,17 +31,17 @@ public class PSXInterface {
 
   public static void main(String[] args) throws Exception {
     final Configure config = new Configure();
-    final Map<Component, Controller> componentToController = generateComponents();
+    final Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
+    final List<com.ericlindau.psx.core.polling.Component> components = generateComponents(controllers);
     final List<Pollable> pollables = config.pollables();  // TODO: Convert to []
     final List<Variable> variables = config.variables();
     final Mapper mapper = new Mapper(variables);
 
     // TODO: Inject Controller source for testing - no need for real components
     final Publisher data = new Publisher(variables, mapper);
-    final UI ui = new UI(componentToController, pollables.toArray(), mapper);
+    final UI ui = new UI(components, pollables.toArray(), mapper);
 
     // TODO: Simplify
-    final Controller[] controllers = componentToController.values().toArray(new Controller[componentToController.values().size()]);
     EventSource e = new Poller(controllers);
     for (Event event : e) {
       ui.update(event);
@@ -49,13 +49,12 @@ public class PSXInterface {
     }
   }
 
-  private static Map<Component, Controller> generateComponents() {
-    Map<Component, Controller> components = new HashMap<Component, Controller>();
-    final Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
+  private static List<com.ericlindau.psx.core.polling.Component> generateComponents(Controller[] controllers) {
+    List<com.ericlindau.psx.core.polling.Component> components = new ArrayList<com.ericlindau.psx.core.polling.Component>();
     for (Controller controller : controllers) {
       Component[] subComponents = controller.getComponents();
       for (Component component : subComponents) {
-        components.put(component, controller);
+        components.add(new com.ericlindau.psx.core.polling.Component(controller, component));
       }
     }
     return components;
