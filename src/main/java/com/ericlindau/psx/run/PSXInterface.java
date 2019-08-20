@@ -32,7 +32,7 @@ public class PSXInterface {
   public static void main(String[] args) throws Exception {
     final Configure config = new Configure();
     final Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
-    final List<com.ericlindau.psx.core.polling.Component> components = generateComponents(controllers);
+    final List<Component> components = generateComponents(controllers);
     final List<Pollable> pollables = config.pollables();  // TODO: Convert to []
     final List<Variable> variables = config.variables();
     final Mapper mapper = new Mapper(variables);
@@ -49,8 +49,8 @@ public class PSXInterface {
     }
   }
 
-  private static List<com.ericlindau.psx.core.polling.Component> generateComponents(Controller[] controllers) {
-    List<com.ericlindau.psx.core.polling.Component> components = new ArrayList<com.ericlindau.psx.core.polling.Component>();
+  private static List<Component> generateComponents(Controller[] controllers) {
+    List<Component> components = new ArrayList<Component>();
     for (Controller controller : controllers) {
       Component[] subComponents = controller.getComponents();
       for (Component component : subComponents) {

@@ -1,7 +1,6 @@
 package com.ericlindau.psx.config;
 
-import com.ericlindau.psx.core.polling.AnalogComponent;
-import com.ericlindau.psx.core.polling.DigitalComponent;
+import com.ericlindau.psx.core.polling.GenericPollable;
 import com.ericlindau.psx.core.polling.Pollable;
 import com.ericlindau.psx.core.processing.AnalogValue;
 import com.ericlindau.psx.core.processing.DigitalValue;
@@ -118,7 +117,7 @@ public class Configure {
     for (Object o : componentsArray.toList()) {
       TomlTable componentTable = (TomlTable) o;
 
-      Pollable component = digital ? new DigitalComponent() : new AnalogComponent();
+      Pollable component = new GenericPollable();
       ((Configurable) component).setFieldsFromTable(componentTable);
       components.add(component);
       activeMappings.put(component, componentTable.getString("active"));

@@ -11,7 +11,7 @@ import java.util.*;
 public class UI {
   private Map<Component, Mapping> componentToMapping;
 
-  public UI(Collection<com.ericlindau.psx.core.polling.Component> components, Object[] options, Mapper mapper) {
+  public UI(Collection<Component> components, Object[] options, Mapper mapper) {
     this.componentToMapping = new HashMap<Component, Mapping>();
 
     JFrame frame = new JFrame();
@@ -23,9 +23,9 @@ public class UI {
     container.setLayout(new GridLayout(0, 1));
     MappingListener listener = new MappingListener(mapper);
 
-    for (com.ericlindau.psx.core.polling.Component component : components) {
+    for (Component component : components) {
       Mapping mapping = new Mapping(component, options, listener, new InvertedListener());
-      componentToMapping.put(component.getInputComponent(), mapping);
+      componentToMapping.put(((com.ericlindau.psx.core.polling.Component) component).getInputComponent(), mapping);
       container.add(mapping);
     }
 
