@@ -27,12 +27,17 @@ public class PSXInterface {
     @Override
     public void setComponent(Component component) {
     }
+
+    @Override
+    public boolean hasComponent() {
+      return false;
+    }
   };
 
   public static void main(String[] args) throws Exception {
     final Configure config = new Configure();
     final Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
-    final List<Component> components = generateComponents(controllers);
+    final List<com.ericlindau.psx.core.polling.Component> components = generateComponents(controllers);
     final List<Pollable> pollables = config.pollables();  // TODO: Convert to []
     final List<Variable> variables = config.variables();
     final Mapper mapper = new Mapper(variables);
@@ -49,8 +54,8 @@ public class PSXInterface {
     }
   }
 
-  private static List<Component> generateComponents(Controller[] controllers) {
-    List<Component> components = new ArrayList<Component>();
+  private static List<com.ericlindau.psx.core.polling.Component> generateComponents(Controller[] controllers) {
+    List<com.ericlindau.psx.core.polling.Component> components = new ArrayList<com.ericlindau.psx.core.polling.Component>();
     for (Controller controller : controllers) {
       Component[] subComponents = controller.getComponents();
       for (Component component : subComponents) {

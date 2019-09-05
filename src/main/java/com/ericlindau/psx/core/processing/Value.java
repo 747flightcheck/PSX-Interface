@@ -19,7 +19,7 @@ public abstract class Value extends Configurable {
   boolean isActive() {
     boolean isActive = true;
     for (Pollable pollable : components) {
-      isActive &= pollable != null;
+      isActive &= pollable.hasComponent();
     }
     return isActive;
   }

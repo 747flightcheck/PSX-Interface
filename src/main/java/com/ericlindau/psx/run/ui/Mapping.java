@@ -18,7 +18,7 @@ class Mapping extends JPanel {
     this.setLayout(new GridLayout(1, FIELDS));
 
     this.component = component;
-    this.value = new JLabel("0");
+    this.value = new JLabel("0.0");
     JCheckBox inverted = new JCheckBox("Inverted");
     inverted.addItemListener(checkListener);
     this.choice = new Choice(this, options);
@@ -44,6 +44,6 @@ class Mapping extends JPanel {
   }
 
   public Object getComponent() {
-    return component;
+    return ((com.ericlindau.psx.core.polling.Component) component).getInputComponent();
   }
 }

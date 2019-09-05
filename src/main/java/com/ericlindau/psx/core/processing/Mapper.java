@@ -30,22 +30,21 @@ public class Mapper {
   // TODO: Change to boolean, verify in UI -> error if false
   public void set(Pollable pollable, Component component) {
     Component current = this.pollableToComponent.get(pollable);
-    if (current != null) {
-      pollable.setComponent(component);
-    }
+//    if (current != null) {
+    pollable.setComponent(component);
+//    }
     this.pollableToComponent.put(pollable, component);
 
     Variable variable = pollableToVariable.get(pollable);
+    System.out.println("put:"+component+"->"+variable);
     this.componentToVariable.put(component, variable);
 
     variable.refreshActive();
   }
 
-  public Variable getVariable(Component component) {
+  Variable getVariable(Component component) {
     Variable variable = componentToVariable.get(component);
-    if (variable != null) {
-      return variable;
-    }
-    return null;
+    System.out.println("get:"+component+"->"+variable);
+    return variable;
   }
 }

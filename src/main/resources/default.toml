@@ -24,12 +24,22 @@ port = 10747
 				inverted = false
 		
 		[[category.variable.value]]
-			components = ["Elevator - Captain", "Elevator - F/O"]
-			inverted = false
-	
+			[[category.variable.value.component]]
+				name = "Elevator - Captain"
+				inverted = false
+
+			[[category.variable.value.component]]
+				name = "Elevator - F/O"
+				inverted = false
+
 		[[category.variable.value]]
-			components = ["Rudder - Captain", "Rudder - F/O"]
-			inverted = false
+			[[category.variable.value.component]]
+				name = "Rudder - Captain"
+				inverted = false
+
+			[[category.variable.value.component]]
+				name = "Rudder - F/O"
+				inverted = false
 
 [[category]]
 	name = "Radar buttons"

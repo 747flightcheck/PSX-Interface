@@ -7,4 +7,6 @@ public interface Pollable {
   float getPollData();
 
   void setComponent(Component component);
+
+  boolean hasComponent();
 }

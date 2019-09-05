@@ -26,14 +26,15 @@ public class Publisher {
 
   public void update(Event event) {
     Component c = event.getComponent();
-    Variable toUpdate = this.mapper.getVariable(c);
+    Variable toUpdate = this.mapper.getVariable(c); // TODO: Why toUpdate is always null?
     if (toUpdate != null && toUpdate.isActive()) {
       String currentState = variableStates.get(toUpdate);
       String newState = toUpdate.getPollData();
 
-      if (!currentState.equals(newState)) {
-        System.out.println(variableStates.put(toUpdate, newState)); // TODO: Send this ret. val. to subs
-      }
+      System.out.println(variableStates.put(toUpdate, newState)); // TODO: Send this ret. val. to subs
+//      if (!currentState.equals(newState)) {
+//        System.out.println(variableStates.put(toUpdate, newState)); // TODO: Send this ret. val. to subs
+//      }
     }
   }
 }

@@ -10,10 +10,6 @@ public class GenericPollable extends Configurable implements Pollable {
 
   private Component component;
 
-  public Component getComponent() {
-    return component;
-  }
-
   public void setComponent(Component component) {
     this.component = component;
   }
@@ -35,5 +31,10 @@ public class GenericPollable extends Configurable implements Pollable {
       // TODO: Use centered option to return 0 or max / 2 (?)
       return 0;
     }
+  }
+
+  @Override
+  public boolean hasComponent() {
+    return this.component != null;
   }
 }

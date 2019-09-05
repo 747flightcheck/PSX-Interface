@@ -30,9 +30,8 @@ class MappingListener implements ItemListener {
       }
       if (target != PSXInterface.nonePollable) {
         this.optionToMapping.put(target, source);
+        this.mapper.set((Pollable) target, (Component) source.getComponent());
       }
-
-      this.mapper.set((Pollable) target, (Component) source.getComponent());
     } else {  // ItemEvent.DESELECTED
       if (target != PSXInterface.nonePollable) {
         this.optionToMapping.put(target, null);
