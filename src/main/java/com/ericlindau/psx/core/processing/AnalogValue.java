@@ -2,13 +2,13 @@ package com.ericlindau.psx.core.processing;
 
 import com.ericlindau.psx.config.Configured;
 import com.ericlindau.psx.core.polling.Pollable;
+import net.consensys.cava.toml.TomlTable;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class AnalogValue extends Value {
-
   @Configured
   private long min, max;
   @Configured
@@ -17,8 +17,8 @@ public class AnalogValue extends Value {
   // TODO: Configure from TOML - type of field is HashMap -> look for KV
   HashMap<Integer, String> thresholds;
 
-  public AnalogValue(List<Pollable> components) {
-    super(components);
+  public AnalogValue(List<Pollable> components, TomlTable... tables) {
+    super(components, tables);
   }
 
   // TODO: Optimize for GC/memory

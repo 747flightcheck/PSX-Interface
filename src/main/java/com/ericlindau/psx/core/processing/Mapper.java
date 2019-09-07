@@ -36,15 +36,11 @@ public class Mapper {
     this.pollableToComponent.put(pollable, component);
 
     Variable variable = pollableToVariable.get(pollable);
-    System.out.println("put:"+component+"->"+variable);
     this.componentToVariable.put(component, variable);
-
     variable.refreshActive();
   }
 
   Variable getVariable(Component component) {
-    Variable variable = componentToVariable.get(component);
-    System.out.println("get:"+component+"->"+variable);
-    return variable;
+    return componentToVariable.get(component);
   }
 }

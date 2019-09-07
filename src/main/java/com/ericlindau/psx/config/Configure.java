@@ -103,10 +103,7 @@ public class Configure {
     for (Object o : valuesArray.toList()) {
       values.add(processValue((TomlTable) o, propertiesTable, digital));
     }
-    Variable variable = new Variable(values);
-    variable.setFieldsFromTable(variableTable);
-
-    return variable;
+    return new Variable(values, variableTable);
   }
 
   private Value processValue(TomlTable valueTable, TomlTable propertiesTable, boolean digital) {
@@ -124,14 +121,11 @@ public class Configure {
     }
 
     Value value = digital ?
-        new DigitalValue(components, activeMappings, null) : new AnalogValue(components);
-    // TODO: Move setFieldsFromTable to constructor for other fields
-    // ... what other fields?
-    value.setFieldsFromTable(propertiesTable);
+        new DigitalValue(components, activeMappings, null, propertiesTable, valueTable) : new AnalogValue(components, propertiesTable, valueTable);
     // TODO: Then call it again here
     // ... with what?
     // precedence: Defaults->properties->specified
-    value.setFieldsFromTable(valueTable);
+    //    value.setFieldsFromTable(valueTable);
 
     return value;
   }

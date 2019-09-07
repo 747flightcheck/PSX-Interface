@@ -2,6 +2,7 @@ package com.ericlindau.psx.core.processing;
 
 import com.ericlindau.psx.config.Configured;
 import com.ericlindau.psx.core.polling.Pollable;
+import net.consensys.cava.toml.TomlTable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +21,8 @@ public class DigitalValue extends Value {
   private final Map<Pollable, String> actives; // TODO: Set initial capacities when injecting
 //  private final Map<Pollable, String> inactives;
 
-  public DigitalValue(List<Pollable> components, Map<Pollable, String> actives, Map<Pollable, String> inactives) {
-    super(components);
+  public DigitalValue(List<Pollable> components, Map<Pollable, String> actives, Map<Pollable, String> inactives, TomlTable... tables) {
+    super(components, tables);
     this.actives = actives;
 //    this.inactives = inactives;
   }

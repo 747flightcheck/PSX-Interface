@@ -2,26 +2,29 @@ package com.ericlindau.psx.core.processing;
 
 import com.ericlindau.psx.config.Configurable;
 import com.ericlindau.psx.config.Configured;
+import net.consensys.cava.toml.TomlTable;
 
 import java.util.List;
 
 public class Variable extends Configurable {
   @Configured
-  private String name = "Unnamed";
+  private String name;
   @Configured
-  private String delimiter = "";
+  private String delimiter;
   @Configured
-  private String psx = "";
+  private String psx;
 
   private List<Value> values;
-  private int startingIndex; // TODO: Initialization
+  private int startingIndex;
   private StringBuffer compiled;
   private boolean isActive;
 
-  public Variable(List<Value> values) {
+  // TODO: Initialize fields before initializer somehow
+  public Variable(List<Value> values, TomlTable... tables) {
+    super(tables);
     // TODO: Initialize with specified length
-    compiled = new StringBuffer(psx + "=");
-    startingIndex = compiled.length();
+    this.compiled = new StringBuffer(this.psx + "=");
+    this.startingIndex = this.compiled.length();
     this.values = values;
     this.isActive = false;
   }

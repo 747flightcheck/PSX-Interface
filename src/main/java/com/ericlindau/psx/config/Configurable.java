@@ -1,18 +1,30 @@
 package com.ericlindau.psx.config;
 
+import com.ericlindau.psx.core.processing.Variable;
 import net.consensys.cava.toml.TomlTable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
  * @author Eric Lindau
  * <p>
- * Configuration utilities for Reflection-based automated field setting from TomlTables.
+ * Configuration utilities for reflection-based automated field setting from TomlTables.
  * <p>
  * Any class extending this may have @Configured fields automatically populated.
  */
 public class Configurable {
+  public Configurable(TomlTable... tables) {
+    for (TomlTable table : tables) {
+      try {
+        Method m = this.getClass().getMethod("setFieldsFromTable", TomlTable.class);
+        m.invoke(this, table);
+      } catch (Exception e) {
+        System.err.println("no such method");
+      }
+    }
+  }
 
   // TODO: Throw explicit Exception for logging (incl. TOML info)
   private boolean setFieldFromTable(Field field, TomlTable table) {
@@ -48,6 +60,7 @@ public class Configurable {
 
   private void setFieldsForClass(Class c, TomlTable table) {
     for (Field field : c.getDeclaredFields()) {
+      // Skip fields without @Configured
       if (field.getAnnotation(Configured.class) == null) {
         continue;
       }
