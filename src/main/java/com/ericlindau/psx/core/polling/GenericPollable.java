@@ -7,6 +7,8 @@ import net.java.games.input.Component;
 public class GenericPollable extends Configurable implements Pollable {
   @Configured
   private String name;
+  @Configured
+  private long min, max; // TODO: Figure out how to set default values
 
   private Component component;
 
@@ -26,7 +28,8 @@ public class GenericPollable extends Configurable implements Pollable {
   @Override
   public float getPollData() {
     try {
-      return this.component.getPollData();
+      float poll = component.getPollData();
+      return (max * poll) + (min * (1 - poll));
     } catch (NullPointerException n) {
       // TODO: Use centered option to return 0 or max / 2 (?)
       return 0;

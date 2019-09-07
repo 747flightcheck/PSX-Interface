@@ -115,6 +115,7 @@ public class Configure {
       TomlTable componentTable = (TomlTable) o;
 
       Pollable component = new GenericPollable();
+      ((Configurable) component).setFieldsFromTable(propertiesTable);
       ((Configurable) component).setFieldsFromTable(componentTable);
       components.add(component);
       activeMappings.put(component, componentTable.getString("active"));

@@ -1,3 +1,6 @@
+[controllers]
+    ignored = [".*Keyboard.*"]
+
 [network]
 host = "localhost"
 port = 10747
@@ -16,30 +19,30 @@ port = 10747
 
 		[[category.variable.value]]
 			[[category.variable.value.component]]
+			    min = 0
 				name = "Aileron - Captain"
-				inverted = false
 
 			[[category.variable.value.component]]
+			    min = 0
 				name = "Aileron - F/O"
-				inverted = false
-		
+
 		[[category.variable.value]]
 			[[category.variable.value.component]]
+			    min = 0
 				name = "Elevator - Captain"
-				inverted = false
 
 			[[category.variable.value.component]]
+			    min = 0
 				name = "Elevator - F/O"
-				inverted = false
 
 		[[category.variable.value]]
 			[[category.variable.value.component]]
+			    min = 0
 				name = "Rudder - Captain"
-				inverted = false
 
 			[[category.variable.value.component]]
+			    min = 0
 				name = "Rudder - F/O"
-				inverted = false
 
 [[category]]
 	name = "Radar buttons"

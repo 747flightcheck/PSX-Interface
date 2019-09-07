@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Publisher {
   private final Mapper mapper;
-  private final HashMap<Variable, String> variableStates;
+  private final HashMap<Variable, String> variableStates; // TODO: Remove - not too useful most of the time
 
   // TODO: Map component from event to something... what? Variable would be fine.
   public Publisher(List<Variable> variables, Mapper mapper) {
@@ -31,10 +31,9 @@ public class Publisher {
       String currentState = variableStates.get(toUpdate);
       String newState = toUpdate.getPollData();
 
-      System.out.println(variableStates.put(toUpdate, newState)); // TODO: Send this ret. val. to subs
-//      if (!currentState.equals(newState)) {
-//        System.out.println(variableStates.put(toUpdate, newState)); // TODO: Send this ret. val. to subs
-//      }
+      System.out.println(newState); // TODO: Send over network
+      // OK to re-send duplicate value occasionally
+      variableStates.put(toUpdate, newState);
     }
   }
 }

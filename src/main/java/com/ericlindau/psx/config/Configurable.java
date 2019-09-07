@@ -15,6 +15,7 @@ import java.lang.reflect.Modifier;
  * Any class extending this may have @Configured fields automatically populated.
  */
 public class Configurable {
+  // TODO: * Refactor so not restricted to TOML
   public Configurable(TomlTable... tables) {
     for (TomlTable table : tables) {
       try {
