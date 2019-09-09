@@ -14,6 +14,7 @@ import net.consensys.cava.toml.TomlTable;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,12 +39,13 @@ public class Configure {
   // TODO: Exception handling
   // TODO: Allow alternative configuration files
   public Configure() throws Exception {
-    URL resource = this.getClass().getClassLoader().getResource("default.toml");
-    if (resource == null) {
-      throw new Exception();
-    }
+//    URL resource = this.getClass().getClassLoader().getResource("default.toml");
+//    if (resource == null) {
+//      throw new Exception();
+//    }
+    BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/default.toml")));
 
-    BufferedReader br = new BufferedReader(new FileReader(resource.getPath()));
+//    BufferedReader br = new BufferedReader(new FileReader(resource.getPath()));
     TomlParseResult toml = Toml.parse(br);
 
     TomlArray categories = toml.getArrayOrEmpty("category");
@@ -115,19 +117,16 @@ public class Configure {
       TomlTable componentTable = (TomlTable) o;
 
       Pollable component = new GenericPollable();
+      // TODO: Consider consolidating tables in constructor like other Configurables
       ((Configurable) component).setFieldsFromTable(propertiesTable);
       ((Configurable) component).setFieldsFromTable(componentTable);
       components.add(component);
       activeMappings.put(component, componentTable.getString("active"));
     }
 
-    Value value = digital ?
-        new DigitalValue(components, activeMappings, null, propertiesTable, valueTable) : new AnalogValue(components, propertiesTable, valueTable);
-    // TODO: Then call it again here
-    // ... with what?
-    // precedence: Defaults->properties->specified
-    //    value.setFieldsFromTable(valueTable);
-
-    return value;
+    // precedence: Defaults->properties->specified **
+    return digital ?
+        new DigitalValue(components, activeMappings, null, propertiesTable, valueTable)
+        : new AnalogValue(components, propertiesTable, valueTable);
   }
 }
