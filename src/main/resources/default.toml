@@ -20,20 +20,20 @@ port = 10747
 		[[category.variable.value]]
 			[[category.variable.value.component]]
 			    min = 0
-				name = "Aileron - Captain"
-
-			[[category.variable.value.component]]
-			    min = 0
-				name = "Aileron - F/O"
-
-		[[category.variable.value]]
-			[[category.variable.value.component]]
-			    min = 0
 				name = "Elevator - Captain"
 
 			[[category.variable.value.component]]
 			    min = 0
 				name = "Elevator - F/O"
+
+		[[category.variable.value]]
+			[[category.variable.value.component]]
+			    min = 0
+				name = "Aileron - Captain"
+
+			[[category.variable.value.component]]
+			    min = 0
+				name = "Aileron - F/O"
 
 		[[category.variable.value]]
 			[[category.variable.value.component]]

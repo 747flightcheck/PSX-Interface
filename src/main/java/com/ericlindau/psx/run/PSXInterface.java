@@ -7,7 +7,6 @@ import com.ericlindau.psx.core.processing.Publisher;
 import com.ericlindau.psx.core.events.EventSource;
 import com.ericlindau.psx.core.events.Poller;
 import com.ericlindau.psx.core.processing.Variable;
-import com.ericlindau.psx.out.Output;
 import com.ericlindau.psx.out.TCPClient;
 import com.ericlindau.psx.run.ui.UI;
 import net.java.games.input.*;
@@ -38,7 +37,6 @@ public class PSXInterface {
 
   // TODO: Copy natives somewhere along with default.toml ( RENAME )
   public static void main(String[] args) throws Exception {
-    final Output out = new TCPClient("localhost", 10747);
     final Configure config = new Configure();
     final Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
     final List<com.ericlindau.psx.core.polling.Component> components = generateComponents(controllers);
@@ -47,8 +45,12 @@ public class PSXInterface {
     final Mapper mapper = new Mapper(variables);
 
     // TODO: Inject Controller source for testing - no need for real components
-    final Publisher data = new Publisher(out, variables, mapper);
+    final Publisher data = new Publisher(variables, mapper);
     final UI ui = new UI(components, pollables.toArray(), mapper);
+
+    final TCPClient out = new TCPClient("localhost", 10747, data.getQueue());
+    final Thread t = new Thread(out);
+    t.start();
 
     // TODO: Simplify
     EventSource e = new Poller(controllers);

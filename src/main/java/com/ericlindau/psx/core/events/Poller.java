@@ -1,6 +1,5 @@
 package com.ericlindau.psx.core.events;
 
-import com.ericlindau.psx.core.processing.Mapper;
 import net.java.games.input.Controller;
 import net.java.games.input.Event;
 import net.java.games.input.EventQueue;
@@ -38,7 +37,6 @@ public class Poller implements EventSource {
       public Event next() {
         Event container = new Event();
         while (true) {
-          // TODO: Sleep between runs
           for (Controller c : controllers) {
             c.poll();
           }

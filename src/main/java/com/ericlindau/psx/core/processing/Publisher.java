@@ -1,35 +1,29 @@
 package com.ericlindau.psx.core.processing;
 
-import com.ericlindau.psx.out.Output;
 import net.java.games.input.*;
+import net.java.games.input.Event;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Delegates controller state changes to destinations.
  */
 public class Publisher {
-  private final Output out;
   private final Mapper mapper;
-//  private final HashMap<Variable, String> variableStates;
+  private final Queue<com.ericlindau.psx.core.processing.Event> events;
 
   // TODO: Map component from event to something... what? Variable would be fine.
-  public Publisher(Output out, List<Variable> variables, Mapper mapper) {
-    this.out = out;
+  public Publisher(List<Variable> variables, Mapper mapper) {
     this.mapper = mapper;
+    this.events = new LinkedList<com.ericlindau.psx.core.processing.Event>();
     // TODO: Configurable ignored controllers (e.g. mouse/keyboard)
-//    this.variableStates = new HashMap<Variable, String>();
     for (Variable variable : variables) {
       pushVariable(variable);
     }
   }
 
   private void pushVariable(Variable variable) {
-    String newState = variable.getPollData();
-    out.push(newState);
+    events.add(new com.ericlindau.psx.core.processing.Event(variable, variable.getPollData()));
   }
 
   public void update(Event event) {
@@ -38,5 +32,9 @@ public class Publisher {
     if (toUpdate != null && toUpdate.isActive()) {
       pushVariable(toUpdate);
     }
+  }
+
+  public Queue<com.ericlindau.psx.core.processing.Event> getQueue() {
+    return events;
   }
 }
