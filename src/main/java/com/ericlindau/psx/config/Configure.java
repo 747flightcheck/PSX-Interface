@@ -12,10 +12,7 @@ import net.consensys.cava.toml.TomlArray;
 import net.consensys.cava.toml.TomlParseResult;
 import net.consensys.cava.toml.TomlTable;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.net.URL;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +23,7 @@ import java.util.Map;
  * <p>
  * Constructs Objects with necessary hierarchy for PSX data processing.
  * <p>
- * Documentation and default.toml should be referred to as descriptors
+ * Documentation and PSX-Interface.toml should be referred to as descriptors
  * for expected configuration structure.
  */
 public class Configure {
@@ -36,16 +33,35 @@ public class Configure {
   private List<Variable> variables;
   private List<Pollable> pollables;
 
-  // TODO: Exception handling
-  // TODO: Allow alternative configuration files
-  public Configure() throws Exception {
-//    URL resource = this.getClass().getClassLoader().getResource("default.toml");
-//    if (resource == null) {
-//      throw new Exception();
-//    }
-    BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/default.toml")));
+  // Somehow no support for this in Java 6
+  // Adapted from: https://stackoverflow.com/a/32652909
+  private static void copy(InputStream source, File dest) throws IOException {
+    OutputStream os = null;
+    try {
+      os = new FileOutputStream(dest);
+      byte[] buffer = new byte[1024];
+      int length;
+      while ((length = source.read(buffer)) > 0) {
+        os.write(buffer, 0, length);
+      }
+    } finally {
+      os.close();
+    }
+  }
 
-//    BufferedReader br = new BufferedReader(new FileReader(resource.getPath()));
+  // TODO: Exception handling
+  public Configure() throws Exception {
+    File config = new File("./PSX-Interface.toml");
+    BufferedReader br;
+    if (!config.exists() || !config.canRead()) {
+      InputStream defaultConfig = this.getClass().getResourceAsStream("/PSX-Interface.toml");
+      copy(defaultConfig, config);
+      // TODO: Fallback on br below if file is not written
+//      br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/PSX-Interface.toml")));
+    }
+
+    br = new BufferedReader(new FileReader(config));
+
     TomlParseResult toml = Toml.parse(br);
 
     TomlArray categories = toml.getArrayOrEmpty("category");
@@ -65,7 +81,7 @@ public class Configure {
   }
 
   /**
-   * Returns an array of concrete variable objects with parameters from default.toml.
+   * Returns an array of concrete variable objects with parameters from PSX-Interface.toml.
    */
   public List<Variable> variables() {
     return this.variables;

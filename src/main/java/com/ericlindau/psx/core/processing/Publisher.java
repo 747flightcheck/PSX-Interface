@@ -10,12 +10,12 @@ import java.util.*;
  */
 public class Publisher {
   private final Mapper mapper;
-  private final Queue<com.ericlindau.psx.core.processing.Event> events;
+  private final Queue<com.ericlindau.psx.core.events.Event> events;
 
   // TODO: Map component from event to something... what? Variable would be fine.
   public Publisher(List<Variable> variables, Mapper mapper) {
     this.mapper = mapper;
-    this.events = new LinkedList<com.ericlindau.psx.core.processing.Event>();
+    this.events = new LinkedList<com.ericlindau.psx.core.events.Event>();
     // TODO: Configurable ignored controllers (e.g. mouse/keyboard)
     for (Variable variable : variables) {
       pushVariable(variable);
@@ -23,7 +23,7 @@ public class Publisher {
   }
 
   private void pushVariable(Variable variable) {
-    events.add(new com.ericlindau.psx.core.processing.Event(variable, variable.getPollData()));
+    events.add(new com.ericlindau.psx.core.events.Event(variable, variable.getPollData()));
   }
 
   public void update(Event event) {
@@ -34,7 +34,7 @@ public class Publisher {
     }
   }
 
-  public Queue<com.ericlindau.psx.core.processing.Event> getQueue() {
+  public Queue<com.ericlindau.psx.core.events.Event> getQueue() {
     return events;
   }
 }

@@ -35,7 +35,7 @@ public class PSXInterface {
     }
   };
 
-  // TODO: Copy natives somewhere along with default.toml ( RENAME )
+  // TODO: Copy natives somewhere along with PSX-Interface.toml ( RENAME )
   public static void main(String[] args) throws Exception {
     final Configure config = new Configure();
     final Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();

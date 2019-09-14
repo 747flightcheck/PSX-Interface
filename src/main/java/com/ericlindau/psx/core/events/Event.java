@@ -1,4 +1,6 @@
-package com.ericlindau.psx.core.processing;
+package com.ericlindau.psx.core.events;
+
+import com.ericlindau.psx.core.processing.Variable;
 
 public class Event {
   public Variable variable;

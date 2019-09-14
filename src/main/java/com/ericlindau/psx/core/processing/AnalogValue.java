@@ -27,7 +27,7 @@ public class AnalogValue extends Value {
 
     for (Pollable component : components) {
       float a = component.getPollData();
-      literal += Math.round(a);
+      literal += java.lang.Math.round(a);
 //      literal += Math.round((max * a) + (min * (1 - a))); // Scaling (SHOULD TAKE PLACE IN POLLABLE)
     }
 

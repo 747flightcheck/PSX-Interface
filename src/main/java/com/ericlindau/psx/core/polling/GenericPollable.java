@@ -2,6 +2,7 @@ package com.ericlindau.psx.core.polling;
 
 import com.ericlindau.psx.config.Configurable;
 import com.ericlindau.psx.config.Configured;
+import com.ericlindau.psx.core.processing.Math;
 import net.java.games.input.Component;
 
 public class GenericPollable extends Configurable implements Pollable {
@@ -9,8 +10,17 @@ public class GenericPollable extends Configurable implements Pollable {
   private String name;
   @Configured
   private long min, max; // TODO: Figure out how to set default values
+  @Configured
+  private boolean centered;
 
   private Component component;
+
+  public GenericPollable() {
+    this.name = "";
+    this.min = -1;
+    this.max = 1;
+    this.centered = false;
+  }
 
   public void setComponent(Component component) {
     this.component = component;
@@ -27,12 +37,12 @@ public class GenericPollable extends Configurable implements Pollable {
 
   @Override
   public float getPollData() {
-    try {
+    if (component == null) {
+      return centered ? (min + max) / 2 : 0;
+    } else {
+      // TODO: Centralize this re-scaling function and correct it for negative poll/min/max values
       float poll = component.getPollData();
-      return (max * poll) + (min * (1 - poll));
-    } catch (NullPointerException n) {
-      // TODO: Use centered option to return 0 or max / 2 (?)
-      return 0;
+      return Math.rescale(poll, -1, 1, min, max);
     }
   }
 
