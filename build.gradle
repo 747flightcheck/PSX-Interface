@@ -1,8 +1,8 @@
-version '1.0'
-
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = 1.6
+mainClassName = 'com.ericlindau.psx.run.PSXInterface'
 
 repositories {
     mavenCentral()
@@ -10,7 +10,35 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile "org.mockito:mockito-core:2.+"
-    compile group: 'net.java.jinput', name: 'jinput', version: '2.0.5'
-    compile group: 'net.consensys.cava', name: 'cava-toml', version: '0.5.0'
+    testCompile 'org.mockito:mockito-core:2.+'
+    compile 'net.consensys.cava:cava-toml:0.5.0'
+    compile 'net.java.jinput:jinput-platform:2.0.7'
+    compile 'net.java.jinput:jinput:2.0.7'
+    compile files('build/libs/natives')
 }
+
+task copyNative(type: Copy) {
+    File destFolder = file(rootProject.buildDir)
+    for (platform in ['osx', 'windows', 'linux'])
+        from(zipTree(configurations.compile.filter {
+            it.name.contains('jinput-platform') && it.name.contains(platform)
+        }.singleFile))
+    into destFolder.toString() + '/libs/natives'
+}
+
+run {
+    systemProperty 'java.library.path', 'build/libs/natives'
+}
+
+jar {
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    manifest {
+        attributes 'Main-Class': 'com.ericlindau.psx.run.PSXInterface'
+//                'Class-Path': configurations.runtime.files.collect { it }.join(' ')
+    }
+}
+
+compileJava.dependsOn(copyNative)
+jar.dependsOn(copyNative)

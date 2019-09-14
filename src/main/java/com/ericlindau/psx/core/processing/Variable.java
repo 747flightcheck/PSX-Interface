@@ -2,11 +2,11 @@ package com.ericlindau.psx.core.processing;
 
 import com.ericlindau.psx.config.Configurable;
 import com.ericlindau.psx.config.Configured;
+import net.consensys.cava.toml.TomlTable;
 
 import java.util.List;
 
 public class Variable extends Configurable {
-
   @Configured
   private String name;
   @Configured
@@ -14,29 +14,46 @@ public class Variable extends Configurable {
   @Configured
   private String psx;
 
-  private List<Value> values; // TODO: Remove public
-  private int startingIndex; // TODO: Initialization
+  private List<Value> values;
+  private int startingIndex;
   private StringBuffer compiled;
+  private boolean isActive;
 
-  public Variable(String psx, List<Value> values) {
-    compiled = new StringBuffer(psx + "=");
-    startingIndex = compiled.length();
+  // TODO: Initialize fields before initializer somehow
+  public Variable(List<Value> values, TomlTable... tables) {
+    super(tables);
+    // TODO: Initialize with specified length
+    this.compiled = new StringBuffer(this.psx + "=");
+    this.startingIndex = this.compiled.length();
     this.values = values;
-    this.psx = psx;
+    this.isActive = false;
+  }
+
+  boolean isActive() {
+    return this.isActive;
+  }
+
+  void refreshActive() {
+    boolean isActive = true;
+    for (Value value : this.getValues()) {
+      isActive &= value.isActive();
+    }
+    this.isActive = isActive;
   }
 
   public String getPollData() {
     compiled.delete(startingIndex, compiled.length());
 
-    int index = startingIndex;
-    for (Value value : values) {
-      String data = value.getPollData();
-      compiled.insert(index, data + delimiter);
-      index += data.length() + delimiter.length();
-    }
+    for (int i = 0; i < values.size(); i++) {
+      Value value = values.get(i);
 
-    if (index != startingIndex) { // Remove trailing delimiter
-      compiled.delete(index, index + delimiter.length());
+      String data = value.getPollData();
+      compiled.append(data);
+
+      // Split compiled values by delimiter
+      if (i != values.size() - 1) {
+        compiled.append(this.delimiter);
+      }
     }
 
     return compiled.toString();
@@ -57,5 +74,4 @@ public class Variable extends Configurable {
   public List<Value> getValues() {
     return values;
   }
-
 }

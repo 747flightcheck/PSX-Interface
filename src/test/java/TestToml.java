@@ -1,9 +1,10 @@
 import com.ericlindau.psx.config.Configure;
-import com.ericlindau.psx.core.polling.AnalogComponent;
+import com.ericlindau.psx.core.polling.GenericPollable;
 import com.ericlindau.psx.core.processing.AnalogValue;
 import com.ericlindau.psx.core.processing.Variable;
 import org.junit.Assert;
 import org.junit.Test;
+import sun.net.www.content.text.Generic;
 
 import java.util.List;
 
@@ -29,15 +30,13 @@ public class TestToml {
     Assert.assertEquals(999, aileron.getMax());
 
     // Third level
-    AnalogComponent capt = (AnalogComponent) aileron.components.get(0);
+    GenericPollable capt = (GenericPollable) aileron.components.get(0);
 
     Assert.assertEquals("Aileron - Captain", capt.getName());
-    Assert.assertFalse(capt.isInverted());
 
-    AnalogComponent fo = (AnalogComponent) aileron.components.get(1);
+    GenericPollable fo = (GenericPollable) aileron.components.get(1);
 
     // Explicit
     Assert.assertEquals("Aileron - F/O", fo.getName());
-    Assert.assertFalse(capt.isInverted());
   }
 }

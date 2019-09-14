@@ -1,0 +1,148 @@
+[controllers]
+    ignored = [".*Keyboard.*"]
+
+[network]
+host = "localhost"
+port = 10747
+
+[[category]]
+	name = "Standard analog"
+
+	[category.properties]
+		min = -999
+		max = 999
+	
+	[[category.variable]]
+		psx = "Qs120"
+		name = "Flight controls"
+		delimiter = ";"
+
+		[[category.variable.value]]
+			[[category.variable.value.component]]
+				name = "Elevator - Captain"
+
+			[[category.variable.value.component]]
+				name = "Elevator - F/O"
+
+		[[category.variable.value]]
+			[[category.variable.value.component]]
+				name = "Aileron - Captain"
+
+			[[category.variable.value.component]]
+				name = "Aileron - F/O"
+
+		[[category.variable.value]]
+			[[category.variable.value.component]]
+				name = "Rudder - Captain"
+
+			[[category.variable.value.component]]
+				name = "Rudder - F/O"
+
+[[category]]
+	name = "Radar buttons"
+
+	[category.properties]
+		digital = true
+
+	[[category.variable]]
+		psx = "Qs104"
+		name = "Radar buttons"
+
+		[[category.variable.value]]
+			inactive = "FWTM"
+
+			[[category.variable.value.component]]
+				name = "TFR - Captain"
+				active = "fWTM"
+
+			[[category.variable.value.component]]
+				name = "WX - Captain"
+				active = "FwTM"
+
+			[[category.variable.value.component]]
+				name = "WX+T - Captain"
+				active = "FWtM"
+
+			[[category.variable.value.component]]
+				name = "MAP - Captain"
+				active = "FWTm"
+
+		[[category.variable.value]]
+			inactive = "g"
+
+			[[category.variable.value.component]]
+				name = "GC - Captain"
+				active = "G"
+
+		[[category.variable.value]]
+			toggle = true
+			inactive = "a"
+
+			[[category.variable.value.component]]
+				name = "AUTO"
+				active = "A"
+
+		[[category.variable.value]]
+			toggle = true
+			inactive = "r"
+
+			[[category.variable.value.component]]
+				name = "L/R"
+				active = "R"
+
+		[[category.variable.value]]
+			toggle = true
+			inactive = "e"
+
+			[[category.variable.value.component]]
+				name = "TEST"
+				active = "E"
+
+[[category]]
+    name = "Threshold-based gain & weighted tilt analogs"
+
+    [category.properties]
+
+    [[category.variable]]
+        psx = "Qs105"
+        name = "Tilt"
+
+        [[category.variable.value]]
+            [category.variable.value.thresholds]
+                -800 = -6
+                -600 = -5
+                -400 = -4
+                -200 = -3
+                0 = -2
+                200 = -1
+                400 = 0
+                600 = 1
+                800 = 2
+                1000 = 3
+
+            [[category.variable.value.component]]
+                name = "Gain - Captain"
+
+        [[category.variable.value]]
+            min = 0
+            max = 4712
+            centered = true
+
+            [[category.variable.value.component]]
+                name = "Tilt - Captain"
+
+        [[category.variable.value]]
+            [category.variable.value.thresholds]
+                -800 = -6
+                -600 = -5
+                -400 = -4
+                -200 = -3
+                0 = -2
+                200 = -1
+                400 = 0
+                600 = 1
+                800 = 2
+                1000 = 3
+
+            [[category.variable.value.component]]
+                name = "Gain - F/O"
