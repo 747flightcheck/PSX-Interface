@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://i.imgur.com/XqFml8h.jpg" align="center">
 </p>
-<p align="center"><i></i></p>
+<p align="center"><i>a simulator using PSX Interface across a network with PSX</i></p>
 
 A re-implementation of the functionality provided by [PSX Smart Interface](https://github.com/eric-lindau/PSX-Smart-Interface) featuring greater efficiency, modularity, and configurability.
 
