@@ -1,11 +1,9 @@
 package com.ericlindau.psx.config;
 
-import com.ericlindau.psx.core.processing.Variable;
 import net.consensys.cava.toml.TomlTable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
 /**
  * @author Eric Lindau
@@ -67,7 +65,7 @@ public class Configurable {
       }
       if (this.setFieldFromTable(field, table)) {
         System.out.println("Field set: " + field.toString());
-        // TODO: Better (not sysout) logging
+        // TODO: Better (not sysout) logging across the board
       } else {
         System.out.println("Field not set: " + field.toString());
       }

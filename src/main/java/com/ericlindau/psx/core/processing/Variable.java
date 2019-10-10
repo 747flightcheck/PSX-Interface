@@ -19,9 +19,11 @@ public class Variable extends Configurable {
   private StringBuffer compiled;
   private boolean isActive;
 
-  // TODO: Initialize fields before initializer somehow
   public Variable(List<Value> values, TomlTable... tables) {
     super(tables);
+    if (delimiter == null) {
+      delimiter = "";
+    }
     // TODO: Initialize with specified length
     this.compiled = new StringBuffer(this.psx + "=");
     this.startingIndex = this.compiled.length();

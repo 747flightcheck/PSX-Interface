@@ -129,6 +129,7 @@ public class Configure {
     TomlArray componentsArray = valueTable.getArrayOrEmpty("component");
 
     Map<Pollable, String> activeMappings = new HashMap<Pollable, String>();
+    Map<Pollable, String> inactiveMappings = new HashMap<Pollable, String>();
     for (Object o : componentsArray.toList()) {
       TomlTable componentTable = (TomlTable) o;
 
@@ -138,11 +139,14 @@ public class Configure {
       ((Configurable) component).setFieldsFromTable(componentTable);
       components.add(component);
       activeMappings.put(component, componentTable.getString("active"));
+      if (componentTable.contains("inactive")) {
+        inactiveMappings.put(component, componentTable.getString("inactive"));
+      }
     }
 
     // precedence: Defaults->properties->specified **
     return digital ?
-        new DigitalValue(components, activeMappings, null, propertiesTable, valueTable)
+        new DigitalValue(components, activeMappings, inactiveMappings, propertiesTable, valueTable)
         : new AnalogValue(components, propertiesTable, valueTable);
   }
 }

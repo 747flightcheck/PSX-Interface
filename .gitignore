@@ -6,3 +6,5 @@ build/
 *.class
 !gradle-wrapper.jar
 gradle-app.setting
+.DS_Store
+PSX-Interface.toml

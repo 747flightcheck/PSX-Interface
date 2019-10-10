@@ -5,9 +5,9 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * @author Eric Lindau
- *
- * Annotation for indicating fields automatically populated
- * by Configurable utilities.
+ * <p>
+ * Annotation for fields automatically populated by Configurable utilities.
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Configured {}
+public @interface Configured {
+}

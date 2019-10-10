@@ -9,7 +9,7 @@ public class GenericPollable extends Configurable implements Pollable {
   @Configured
   private String name;
   @Configured
-  private long min, max; // TODO: Figure out how to set default values
+  private long min, max;
   @Configured
   private boolean centered;
 
@@ -40,8 +40,8 @@ public class GenericPollable extends Configurable implements Pollable {
     if (component == null) {
       return centered ? (min + max) / 2 : 0;
     } else {
-      // TODO: Centralize this re-scaling function and correct it for negative poll/min/max values
       float poll = component.getPollData();
+      // TODO: Parametrize min/max args. in config
       return Math.rescale(poll, -1, 1, min, max);
     }
   }
